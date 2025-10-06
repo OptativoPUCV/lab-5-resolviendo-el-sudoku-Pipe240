@@ -49,14 +49,14 @@ int is_valid(Node *n){
         int visto[10] = {0};
         for(int j = 0; j < 9; j++){
             int v = n->sudo[i][j];
-            if(v == 0) continue;        // ignorar casillas vacías
+            if(v == 0) continue;        // casilla vacia
             if(v < 1 || v > 9) return 0; // valor fuera de rango
             if(visto[v]) return 0;       // repetido en la fila
             visto[v] = 1;
         }
     }
 
-    // 2) Columnas
+    // Columnas
     for(int j = 0; j < 9; j++){
         int visto[10] = {0};
         for(int i = 0; i < 9; i++){
@@ -68,11 +68,11 @@ int is_valid(Node *n){
         }
     }
 
-    // 3) Submatrices 3x3
+    // Submatrices 3x3
     for(int br = 0; br < 3; br++){
         for(int bc = 0; bc < 3; bc++){
             int visto[10] = {0};
-            // recorre los 9 elementos de la submatriz con el truco p->(i,j)
+            // recorrer la submatriz 3x3
             for(int p = 0; p < 9; p++){
                 int i = 3*br + (p/3);
                 int j = 3*bc + (p%3);
@@ -93,7 +93,7 @@ int is_valid(Node *n){
 List* get_adj_nodes(Node* n){
     List* list = createList();
 
-    // 1) Buscar la primera casilla vacia
+    // Buscar la primera casilla vacia
     int row = -1, col = -1;
     for(int i = 0; i < 9 && row == -1; i++){
         for(int j = 0; j < 9; j++){
@@ -107,7 +107,7 @@ List* get_adj_nodes(Node* n){
     // Si no hay vacias no hay adjacentes
     if(row == -1) return list;
 
-    // 2) Generar 9 hijos: copiar el nodo y asignar 1..9 en (row,col)
+    // Generar nodos hijos probando valores del 1 al 9
     for(int val = 1; val <= 9; val++){
         Node* child = copy(n);              
         child->sudo[row][col] = val;
