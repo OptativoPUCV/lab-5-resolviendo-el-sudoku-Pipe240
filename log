@@ -64,3 +64,10 @@ C:\Users\felip\OneDrive\Escritorio\lab5-FelipePoirier\lab-5-resolviendo-el-sudok
 C:\Users\felip\OneDrive\Escritorio\lab5-FelipePoirier\lab-5-resolviendo-el-sudoku-Pipe240/sudoku.c:158: undefined reference to `nextList'
 collect2.exe: error: ld returned 1 exit status
 638cb17
+Sun, Oct  5, 2025 10:15:49 PM: 
+Compilation failed
+C:\Users\felip\AppData\Local\Temp\ccoiDdUS.o: In function `DFS':
+C:\Users\felip\OneDrive\Escritorio\lab5-FelipePoirier\lab-5-resolviendo-el-sudoku-Pipe240/sudoku.c:158: undefined reference to `firstList'
+C:\Users\felip\OneDrive\Escritorio\lab5-FelipePoirier\lab-5-resolviendo-el-sudoku-Pipe240/sudoku.c:158: undefined reference to `nextList'
+collect2.exe: error: ld returned 1 exit status
+b8bfca6
