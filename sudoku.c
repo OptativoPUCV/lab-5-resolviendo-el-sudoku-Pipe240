@@ -2,9 +2,6 @@
 #include <stdlib.h>
 #include "list.h"
 
-void* firstList(List* list);
-void* nextList(List* list); //me saltaba error sin estos
-
 
 typedef struct{
    int sudo[9][9];
@@ -134,39 +131,33 @@ int is_final(Node *n){
 
 
 Node* DFS(Node* n, int* cont){
-    // pila de estados
     Stack* S = createStack();
     push(S, n);
-
     if (cont) *cont = 0;
 
     while (top(S) != NULL){
         Node* cur = (Node*) top(S);
-        pop(S);
-
+        pop(S); // sacar el de arriba
         if (cont) (*cont)++;
 
-        //verifica si es final
-        if (is_final(cur)){
-            return cur;                 
+        if (is_final(cur)){ 
+            return cur; 
         }
 
-        // obtener adyacentes
-        List* adj = get_adj_nodes(cur);
+        List* adj = get_adj_nodes(cur); // obtener adyacentes
 
-        // agregar adyacentes a la pila
-        for (Node* h = firstList(adj); h != NULL; h = nextList(adj)){
-            push(S, h);
+        
+        void *it = first(adj);
+        while (it != NULL) {
+            push(S, (Node*)it);
+            it = next(adj);
         }
-
-        // liberar memoria
+       
         free(cur);
-      
+        // liberar lista
     }
-
-    return NULL; 
+    return NULL;
 }
-
 
 /*
 int main( int argc, char *argv[] ){
