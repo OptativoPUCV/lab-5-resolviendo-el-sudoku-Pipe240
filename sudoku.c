@@ -100,7 +100,7 @@ List* get_adj_nodes(Node* n){
             }
         }
     }
-    // Si no hay vacia no hay adjacente
+    // si no hay vacia no hay adjacente
     if (row == -1) return list;
 
     // intentar con valores del 1 al 9
@@ -127,10 +127,42 @@ int is_final(Node *n){
     }
     return 1; // no hay ceros -> tablero completo
 }
-Node* DFS(Node* initial, int* cont){
-  return NULL;
-}
 
+
+
+Node* DFS(Node* n, int* cont){
+    // pila de estados
+    Stack* S = createStack();
+    push(S, n);
+
+    if (cont) *cont = 0;
+
+    while (top(S) != NULL){
+        Node* cur = (Node*) top(S);
+        pop(S);
+
+        if (cont) (*cont)++;
+
+        //verifica si es final
+        if (is_final(cur)){
+            return cur;                 
+        }
+
+        // obtener adyacentes
+        List* adj = get_adj_nodes(cur);
+
+        // agregar adyacentes a la pila
+        for (Node* h = firstList(adj); h != NULL; h = nextList(adj)){
+            push(S, h);
+        }
+
+        // liberar memoria
+        free(cur);
+      
+    }
+
+    return NULL; 
+}
 
 
 /*
