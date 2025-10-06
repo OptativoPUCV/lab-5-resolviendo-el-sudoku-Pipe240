@@ -90,7 +90,7 @@ int is_valid(Node *n){
 List* get_adj_nodes(Node* n){
     List* list = createList();
 
-    // encontrar la primera casilla vacía 
+    // encontrar la primera casilla vacia
     int row = -1, col = -1;
     for (int i = 0; i < 9 && row == -1; i++){
         for (int j = 0; j < 9; j++){
@@ -119,10 +119,14 @@ List* get_adj_nodes(Node* n){
 }
 
 
-int is_final(Node* n){
-    return 0;
+int is_final(Node *n){
+    for(int i = 0; i < 9; i++){
+        for(int j = 0; j < 9; j++){
+            if(n->sudo[i][j] == 0) return 0;  // si hay ceros no es final
+        }
+    }
+    return 1; // no hay ceros -> tablero completo
 }
-
 Node* DFS(Node* initial, int* cont){
   return NULL;
 }
