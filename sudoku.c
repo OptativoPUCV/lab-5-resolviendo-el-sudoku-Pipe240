@@ -43,16 +43,57 @@ void print_node(Node* n){
     printf("\n");
 }
 
-int is_valid(Node* n){
+int is_valid(Node *n){
+    // 1) Filas
+    for(int i = 0; i < 9; i++){
+        int visto[10] = {0};
+        for(int j = 0; j < 9; j++){
+            int v = n->sudo[i][j];
+            if(v == 0) continue;        // ignorar casillas vacías
+            if(v < 1 || v > 9) return 0; // valor fuera de rango
+            if(visto[v]) return 0;       // repetido en la fila
+            visto[v] = 1;
+        }
+    }
 
-    return 1;
+    // 2) Columnas
+    for(int j = 0; j < 9; j++){
+        int visto[10] = {0};
+        for(int i = 0; i < 9; i++){
+            int v = n->sudo[i][j];
+            if(v == 0) continue;
+            if(v < 1 || v > 9) return 0;
+            if(visto[v]) return 0;       // repetido en la columna
+            visto[v] = 1;
+        }
+    }
+
+    // 3) Submatrices 3x3
+    for(int br = 0; br < 3; br++){
+        for(int bc = 0; bc < 3; bc++){
+            int visto[10] = {0};
+            // recorre los 9 elementos de la submatriz con el truco p->(i,j)
+            for(int p = 0; p < 9; p++){
+                int i = 3*br + (p/3);
+                int j = 3*bc + (p%3);
+                int v = n->sudo[i][j];
+                if(v == 0) continue;
+                if(v < 1 || v > 9) return 0;
+                if(visto[v]) return 0;   // repetido en el 3x3
+                visto[v] = 1;
+            }
+        }
+    }
+
+    return 1; 
 }
+
 
 
 List* get_adj_nodes(Node* n){
     List* list = createList();
 
-    // 1) Buscar la primera casilla vacía (0) en orden fila-major
+    // 1) Buscar la primera casilla vacia
     int row = -1, col = -1;
     for(int i = 0; i < 9 && row == -1; i++){
         for(int j = 0; j < 9; j++){
@@ -63,15 +104,15 @@ List* get_adj_nodes(Node* n){
         }
     }
 
-    // Si no hay vacías, no hay adyacentes (estado "completo")
+    // Si no hay vacias no hay adjacentes
     if(row == -1) return list;
 
     // 2) Generar 9 hijos: copiar el nodo y asignar 1..9 en (row,col)
     for(int val = 1; val <= 9; val++){
-        Node* child = copy(n);               // te dan esta función
+        Node* child = copy(n);              
         child->sudo[row][col] = val;
-        // Según tu TDA, puede ser pushBack(...) o push_back(...)
-        pushBack(list, child);
+        
+        pushBack(list, child);  
     }
 
     return list;
