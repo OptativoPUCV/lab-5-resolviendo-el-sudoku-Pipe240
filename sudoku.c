@@ -50,7 +50,30 @@ int is_valid(Node* n){
 
 
 List* get_adj_nodes(Node* n){
-    List* list=createList();
+    List* list = createList();
+
+    // 1) Buscar la primera casilla vacía (0) en orden fila-major
+    int row = -1, col = -1;
+    for(int i = 0; i < 9 && row == -1; i++){
+        for(int j = 0; j < 9; j++){
+            if(n->sudo[i][j] == 0){
+                row = i; col = j;
+                break;
+            }
+        }
+    }
+
+    // Si no hay vacías, no hay adyacentes (estado "completo")
+    if(row == -1) return list;
+
+    // 2) Generar 9 hijos: copiar el nodo y asignar 1..9 en (row,col)
+    for(int val = 1; val <= 9; val++){
+        Node* child = copy(n);               // te dan esta función
+        child->sudo[row][col] = val;
+        // Según tu TDA, puede ser pushBack(...) o push_back(...)
+        pushBack(list, child);
+    }
+
     return list;
 }
 
