@@ -44,18 +44,18 @@ void print_node(Node* n){
 }
 
 int is_valid(Node *n){
-    // 1) Filas
+    // filas
     for(int i = 0; i < 9; i++){
         int visto[10] = {0};
         for(int j = 0; j < 9; j++){
             int v = n->sudo[i][j];
-            if(v == 0) continue;          // ignorar vacías
+            if(v == 0) continue;          // vacias
             if(v < 1 || v > 9) return 0;  // fuera de rango
             if(visto[v]) return 0;        // repetido en la fila
             visto[v] = 1;
         }
     }
-    // 2) Columnas
+    // columnas
     for(int j = 0; j < 9; j++){
         int visto[10] = {0};
         for(int i = 0; i < 9; i++){
@@ -66,7 +66,7 @@ int is_valid(Node *n){
             visto[v] = 1;
         }
     }
-    // 3) Submatrices 3×3
+    // subcuadriculas 3x3
     for(int br = 0; br < 3; br++){
         for(int bc = 0; bc < 3; bc++){
             int visto[10] = {0};
@@ -81,7 +81,7 @@ int is_valid(Node *n){
             }
         }
     }
-    return 1; // válido
+    return 1;
 }
 
 
@@ -90,7 +90,7 @@ int is_valid(Node *n){
 List* get_adj_nodes(Node* n){
     List* list = createList();
 
-    // 1) localizar la primera casilla vacía
+    // encontrar la primera casilla vacía 
     int row = -1, col = -1;
     for (int i = 0; i < 9 && row == -1; i++){
         for (int j = 0; j < 9; j++){
@@ -100,19 +100,19 @@ List* get_adj_nodes(Node* n){
             }
         }
     }
-    // Si no hay vacías, no hay adyacentes
+    // Si no hay vacia no hay adjacente
     if (row == -1) return list;
 
-    // 2) generar hijos probando 1..9 y FILTRAR con is_valid
+    // intentar con valores del 1 al 9
     for (int val = 1; val <= 9; val++){
         Node* child = copy(n);
         child->sudo[row][col] = val;
 
         if (is_valid(child)){
-            // según tu TDA puede ser pushBack o push_back
+            
             pushBack(list, child);
         } else {
-            free(child); // evitar fuga de memoria
+            free(child); // evitar problemas de memoria
         }
     }
     return list;
