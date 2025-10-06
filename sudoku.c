@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include "list.h"
 
+void* firstList(List* list);
+void* nextList(List* list); //me saltaba error sin estos
+
 
 typedef struct{
    int sudo[9][9];
